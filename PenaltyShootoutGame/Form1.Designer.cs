@@ -40,8 +40,12 @@
             this.bottomRight = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.goalkeeper = new System.Windows.Forms.PictureBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.goalkeeperTimer = new System.Windows.Forms.Timer(this.components);
+            this.ballTimer = new System.Windows.Forms.Timer(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.goalsCount = new System.Windows.Forms.Label();
+            this.missesCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.topLeft)).BeginInit();
@@ -80,11 +84,11 @@
             // 
             this.ball.BackColor = System.Drawing.Color.Transparent;
             this.ball.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ball.Image = global::PenaltyShootoutGame.Properties.Resources.ball;
+            this.ball.Image = ((System.Drawing.Image)(resources.GetObject("ball.Image")));
             this.ball.Location = new System.Drawing.Point(449, 487);
             this.ball.Name = "ball";
             this.ball.Size = new System.Drawing.Size(60, 60);
-            this.ball.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.ball.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ball.TabIndex = 2;
             this.ball.TabStop = false;
             this.ball.Visible = false;
@@ -101,6 +105,7 @@
             this.topLeft.TabStop = false;
             this.topLeft.Tag = "topleft";
             this.topLeft.Visible = false;
+            this.topLeft.Click += new System.EventHandler(this.chooseTarget);
             // 
             // top
             // 
@@ -114,6 +119,7 @@
             this.top.TabStop = false;
             this.top.Tag = "top";
             this.top.Visible = false;
+            this.top.Click += new System.EventHandler(this.chooseTarget);
             // 
             // topRight
             // 
@@ -127,6 +133,7 @@
             this.topRight.TabStop = false;
             this.topRight.Tag = "topright";
             this.topRight.Visible = false;
+            this.topRight.Click += new System.EventHandler(this.chooseTarget);
             // 
             // bottomLeft
             // 
@@ -140,6 +147,7 @@
             this.bottomLeft.TabStop = false;
             this.bottomLeft.Tag = "bottomleft";
             this.bottomLeft.Visible = false;
+            this.bottomLeft.Click += new System.EventHandler(this.chooseTarget);
             // 
             // bottomRight
             // 
@@ -153,6 +161,7 @@
             this.bottomRight.TabStop = false;
             this.bottomRight.Tag = "bottomright";
             this.bottomRight.Visible = false;
+            this.bottomRight.Click += new System.EventHandler(this.chooseTarget);
             // 
             // label1
             // 
@@ -180,6 +189,64 @@
             this.goalkeeper.TabStop = false;
             this.goalkeeper.Visible = false;
             // 
+            // goalkeeperTimer
+            // 
+            this.goalkeeperTimer.Interval = 20;
+            this.goalkeeperTimer.Tick += new System.EventHandler(this.moveKeeper);
+            // 
+            // ballTimer
+            // 
+            this.ballTimer.Interval = 20;
+            this.ballTimer.Tick += new System.EventHandler(this.shootBall);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(25, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 25);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Goals: ";
+            this.label2.Visible = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(775, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(72, 25);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Misses:";
+            this.label3.Visible = false;
+            // 
+            // goalsCount
+            // 
+            this.goalsCount.AutoSize = true;
+            this.goalsCount.BackColor = System.Drawing.Color.Transparent;
+            this.goalsCount.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.goalsCount.Location = new System.Drawing.Point(89, 12);
+            this.goalsCount.Name = "goalsCount";
+            this.goalsCount.Size = new System.Drawing.Size(22, 25);
+            this.goalsCount.TabIndex = 12;
+            this.goalsCount.Text = "0";
+            this.goalsCount.Visible = false;
+            // 
+            // missesCount
+            // 
+            this.missesCount.AutoSize = true;
+            this.missesCount.BackColor = System.Drawing.Color.Transparent;
+            this.missesCount.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.missesCount.Location = new System.Drawing.Point(843, 12);
+            this.missesCount.Name = "missesCount";
+            this.missesCount.Size = new System.Drawing.Size(27, 25);
+            this.missesCount.TabIndex = 13;
+            this.missesCount.Text = " 0";
+            this.missesCount.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -187,6 +254,10 @@
             this.BackgroundImage = global::PenaltyShootoutGame.Properties.Resources.pitch;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(933, 701);
+            this.Controls.Add(this.missesCount);
+            this.Controls.Add(this.goalsCount);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.goalkeeper);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.bottomRight);
@@ -197,6 +268,7 @@
             this.Controls.Add(this.ball);
             this.Controls.Add(this.play);
             this.Controls.Add(this.mainMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Penalty Shootout";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -225,7 +297,11 @@
         private System.Windows.Forms.PictureBox bottomRight;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox goalkeeper;
-        private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Timer goalkeeperTimer;
+        private System.Windows.Forms.Timer ballTimer;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label goalsCount;
+        private System.Windows.Forms.Label missesCount;
     }
 }

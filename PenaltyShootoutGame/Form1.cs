@@ -12,6 +12,7 @@ namespace PenaltyShootoutGame
 {
     public partial class Form1 : Form
     {
+        object selectedTarget;
         public Form1()
         {
             InitializeComponent();
@@ -33,13 +34,21 @@ namespace PenaltyShootoutGame
             label1.Visible = false;
             mainMenu.Visible = false;
             ball.Visible = true;
-            topLeft.Visible = true; 
-            top.Visible = true; 
-            topRight.Visible = true; 
+            topLeft.Visible = true;
+            top.Visible = true;
+            topRight.Visible = true;
             bottomLeft.Visible = true;
-            bottomRight.Visible = true; 
+            bottomRight.Visible = true;
             goalkeeper.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
+            goalsCount.Visible = true;
+            missesCount.Visible = true;
 
+        }
+
+        private void moveKeeper(object sender, EventArgs e)
+        {
             //goalkeeper
             // normal location:            428, 163
             // bottom right save location: 449, 203
@@ -47,6 +56,90 @@ namespace PenaltyShootoutGame
             // top middle save location:   435, 153
             // top right save location:    438, 151
             // top left save location:     421, 155 
+            // ball location:              449, 487
+        }
+
+        private void shootBall(object sender, EventArgs e)
+        {
+            switch (selectedTarget)
+            {
+                case "topleft":
+                    {
+                        if (ball.Left > topLeft.Left && ball.Top > topLeft.Top)
+                        {
+                            ball.Left -= 20;
+                            ball.Top -= 33;
+                        }
+                        else
+                        {
+                            ball.Location = new Point(449, 487);
+                            ballTimer.Enabled = false;
+                        }
+                        break;
+                    }
+                case "top":
+                    {
+                        if (ball.Top > top.Top)
+                        {
+                            ball.Top -= 33;
+                        }
+                        else
+                        {
+                            ball.Location = new Point(449, 487);
+                            ballTimer.Enabled = false;
+                        }
+                        break;
+                    }
+                case "topright":
+                    {
+                        if (ball.Left < topRight.Left && ball.Top > topRight.Top)
+                        {
+                            ball.Top -= 33;
+                            ball.Left += 20;
+                        }
+                        else
+                        {
+                            ball.Location = new Point(449, 487);
+                            ballTimer.Enabled = false;
+                        }
+                        break;
+                    }
+                case "bottomleft":
+                    {
+                        if (ball.Left > bottomLeft.Left && ball.Top > bottomLeft.Top)
+                        {
+                            ball.Left -= 20;
+                            ball.Top -= 23;
+                        }
+                        else
+                        {
+                            ball.Location = new Point(449, 487);
+                            ballTimer.Enabled = false;
+                        }
+                        break;
+                    }
+                case "bottomright":
+                    {
+                        if (ball.Left < bottomRight.Left && ball.Top > bottomRight.Top)
+                        {
+                            ball.Left += 20;
+                            ball.Top -= 25;
+                        }
+                        else
+                        {
+                            ball.Location = new Point(449, 487);
+                            ballTimer.Enabled = false;
+                        }
+                        break;
+                    }
+            }
+        }
+
+        private void chooseTarget(object sender, EventArgs e)
+        {
+            var senderObject = (PictureBox)sender;
+            selectedTarget = senderObject.Tag;
+            ballTimer.Enabled = true;
         }
     }
 }

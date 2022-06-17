@@ -21,6 +21,9 @@ namespace PenaltyShootoutGame
         private int secondPlayerGoals = 0;
         private int firstPlayerExtraPenalties = 0;
         private int secondPlayerExtraPenalties = 0;
+        private int ballX = 0;
+        private int ballY = 0;
+        private bool isActive = false;
 
         public Form1()
         {
@@ -74,183 +77,143 @@ namespace PenaltyShootoutGame
             label1.Location = new Point(1000, 1000);
             mainMenu.Location = new Point(1000, 1000);
         }
+        private void shootBall(object sender, EventArgs e)
+        {
+            ball.Left -= ballX;
+            ball.Top -= ballY;
+
+            if (ball.Bounds.IntersectsWith(topLeft.Bounds) && selectedTarget == "topleft"
+                || ball.Bounds.IntersectsWith(top.Bounds) && selectedTarget == "top"
+                || ball.Bounds.IntersectsWith(topRight.Bounds) && selectedTarget == "topright"
+                || ball.Bounds.IntersectsWith(bottomLeft.Bounds) && selectedTarget == "bottomleft"
+                || ball.Bounds.IntersectsWith(bottomRight.Bounds) && selectedTarget == "bottomright")
+            {
+                ball.Left = 449;
+                ball.Top = 487;
+                ballX = 0;
+                ballY = 0;
+                isActive = false;
+                ballTimer.Enabled = false;
+                CheckIfPlayerWon(counter);
+            }
+        }
 
         private void moveKeeper(object sender, EventArgs e)
         {
-            //goalkeeper
-            // normal location:            428, 163
-            // bottom right save location: 449, 203
-            // bottom left save location : 432, 204
-            // top middle save location:   435, 153
-            // top right save location:    438, 151
-            // top left save location:     421, 155 
-            // ball location:              449, 487
-
             switch (goalkeeperTarget)
             {
                 case "topleft":
+                    if (!goalkeeper.Bounds.IntersectsWith(topLeft.Bounds))
                     {
-                        goalkeeper.Image = Resources.top_left_save;
-                        if (goalkeeper.Left > topLeft.Left && goalkeeper.Top > topLeft.Top)
-                        {
-                            goalkeeper.Left -= 20;
-                            goalkeeper.Top -= 5;
-                        }
-                        else
-                        {
-                            goalkeeper.Location = new Point(428, 163);
-                            goalkeeperTimer.Enabled = false;
-                            goalkeeper.Image = Resources.goalkeeper;
-                        }
-                        break;
+                        goalkeeper.Left -= 20;
+                        goalkeeper.Top -= 5;
                     }
+                    else
+                    {
+                        goalkeeper.Left = 428;
+                        goalkeeper.Top = 163;
+                        goalkeeper.Image = Resources.goalkeeper;
+                        goalkeeperTimer.Enabled = false;
+                    }
+                    break;
                 case "top":
+                    if (!goalkeeper.Bounds.IntersectsWith(top.Bounds))
                     {
-                        goalkeeper.Image = Resources.top_save;
-                        if (goalkeeper.Top > top.Top)
-                        {
-                            goalkeeper.Top -= 10;
-                        }
-                        else
-                        {
-                            goalkeeper.Location = new Point(428, 163);
-                            goalkeeperTimer.Enabled = false;
-                            goalkeeper.Image = Resources.goalkeeper;
-                        }
-                        break;
+                        goalkeeper.Top -= 10;
                     }
+                    else
+                    {
+                        goalkeeper.Left = 428;
+                        goalkeeper.Top = 163;
+                        goalkeeper.Image = Resources.goalkeeper;
+                        goalkeeperTimer.Enabled = false;
+                    }
+                    break;
                 case "topright":
+                    if (!goalkeeper.Bounds.IntersectsWith(topRight.Bounds))
                     {
-                        goalkeeper.Image = Resources.top_right_save;
-                        if (goalkeeper.Left < topRight.Left && goalkeeper.Top > topRight.Top)
-                        {
-                            goalkeeper.Top -= 33;
-                            goalkeeper.Left += 20;
-                        }
-                        else
-                        {
-                            ball.Location = new Point(428, 163);
-                            ballTimer.Enabled = false;
-                            goalkeeper.Image = Resources.goalkeeper;
-                        }
-                        break;
+                        goalkeeper.Left += 20;
+                        goalkeeper.Top -= 10;
                     }
+                    else
+                    {
+                        goalkeeper.Left = 428;
+                        goalkeeper.Top = 163;
+                        goalkeeper.Image = Resources.goalkeeper;
+                        goalkeeperTimer.Enabled = false;
+                    }
+                    break;
                 case "bottomleft":
+                    if (!goalkeeper.Bounds.IntersectsWith(bottomLeft.Bounds))
                     {
+                        goalkeeper.Left -= 15;
                         goalkeeper.Top = 203;
-                        goalkeeper.Image = Resources.bottom_left_save;
-                        if (goalkeeper.Left > bottomLeft.Left)
-                        {
-                            goalkeeper.Left -= 20;
-                        }
-                        else
-                        {
-                            goalkeeper.Location = new Point(428, 163);
-                            goalkeeperTimer.Enabled = false;
-                            goalkeeper.Image = Resources.goalkeeper;
-                        }
-                        break;
                     }
+                    else
+                    {
+                        goalkeeper.Left = 428;
+                        goalkeeper.Top = 163;
+                        goalkeeper.Image = Resources.goalkeeper;
+                        goalkeeperTimer.Enabled = false;
+                    }
+                    break;
                 case "bottomright":
+                    if (!goalkeeper.Bounds.IntersectsWith(bottomRight.Bounds))
                     {
+                        goalkeeper.Left += 15;
                         goalkeeper.Top = 203;
-                        goalkeeper.Image = Resources.bottom_right_save;
-                        if (goalkeeper.Left < bottomRight.Left)
-                        {
-                            goalkeeper.Left += 20;
-                        }
-                        else
-                        {
-                            goalkeeper.Location = new Point(428, 163);
-                            goalkeeperTimer.Enabled = false;
-                            goalkeeper.Image = Resources.goalkeeper;
-                        }
-                        break;
                     }
+                    else
+                    {
+                        goalkeeper.Left = 428;
+                        goalkeeper.Top = 163;
+                        goalkeeper.Image = Resources.goalkeeper;
+                        goalkeeperTimer.Enabled = false;
+                    }
+                    break;
             }
         }
-
-        private void shootBall(object sender, EventArgs e)
-        {
-            switch (selectedTarget)
-            {
-                case "topleft":
-                    {
-                        if (ball.Left > topLeft.Left && ball.Top > topLeft.Top)
-                        {
-                            ball.Left -= 20;
-                            ball.Top -= 33;
-                        }
-                        else
-                        {
-                            ball.Location = new Point(449, 487);
-                            ballTimer.Enabled = false;
-                        }
-                        break;
-                    }
-                case "top":
-                    {
-                        if (ball.Top > top.Top)
-                        {
-                            ball.Top -= 33;
-                        }
-                        else
-                        {
-                            ball.Location = new Point(449, 487);
-                            ballTimer.Enabled = false;
-                        }
-                        break;
-                    }
-                case "topright":
-                    {
-                        if (ball.Left < topRight.Left && ball.Top > topRight.Top)
-                        {
-                            ball.Top -= 33;
-                            ball.Left += 20;
-                        }
-                        else
-                        {
-                            ball.Location = new Point(449, 487);
-                            ballTimer.Enabled = false;
-                        }
-                        break;
-                    }
-                case "bottomleft":
-                    {
-                        if (ball.Left > bottomLeft.Left && ball.Top > bottomLeft.Top)
-                        {
-                            ball.Left -= 20;
-                            ball.Top -= 23;
-                        }
-                        else
-                        {
-                            ball.Location = new Point(449, 487);
-                            ballTimer.Enabled = false;
-                        }
-                        break;
-                    }
-                case "bottomright":
-                    {
-                        if (ball.Left < bottomRight.Left && ball.Top > bottomRight.Top)
-                        {
-                            ball.Left += 20;
-                            ball.Top -= 25;
-                        }
-                        else
-                        {
-                            ball.Location = new Point(449, 487);
-                            ballTimer.Enabled = false;
-                        }
-                        break;
-                    }
-            }
-        }
-
-
+        
         private void chooseTarget(object sender, EventArgs e)
         {
+            if (isActive)
+            {
+                return;
+            }
+
             var senderObject = (PictureBox)sender;
             selectedTarget = senderObject.Tag;
+
+            if (selectedTarget == "topleft")
+            {
+                ballX = 20;
+                ballY = 33;
+                isActive = true;
+            }
+            else if (selectedTarget == "top")
+            {
+                ballX = 0;
+                ballY = 33;
+                isActive = true;
+            }
+            else if (selectedTarget == "topright")
+            {
+                ballX = -20;
+                ballY = 33;
+                isActive = true;
+            }
+            else if (selectedTarget == "bottomleft")
+            {
+                ballX = 20;
+                ballY = 23;
+                isActive = true;
+            }
+            else if (selectedTarget == "bottomright")
+            {
+                ballX = -20;
+                ballY = 25;
+                isActive = true;
+            }
 
             List<string> targets = new List<string>
             {
@@ -265,11 +228,39 @@ namespace PenaltyShootoutGame
             int index = r.Next(targets.Count);
             goalkeeperTarget = targets[index];
 
+            ChangeGoalkeeperImage(index);
+
             ballTimer.Enabled = true;
             goalkeeperTimer.Enabled = true;
 
             counter++;
+            CheckIfPlayerScoredOrMissed(counter);
+        }
 
+        private void ChangeGoalkeeperImage(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    goalkeeper.Image = Resources.top_left_save;
+                    break;
+                case 1:
+                    goalkeeper.Image = Resources.top_save;
+                    break;
+                case 2:
+                    goalkeeper.Image = Resources.top_right_save;
+                    break;
+                case 3:
+                    goalkeeper.Image = Resources.bottom_left_save;
+                    break;
+                case 4:
+                    goalkeeper.Image = Resources.bottom_right_save;
+                    break;
+            }
+        }
+
+        private void CheckIfPlayerScoredOrMissed(int counter)
+        {
             if (counter % 2 != 0)
             {
                 VisualizeGoalOrMiss(player1, ref firstPlayerGoals, ref firstPlayerExtraPenalties);
@@ -278,7 +269,31 @@ namespace PenaltyShootoutGame
             {
                 VisualizeGoalOrMiss(player2, ref secondPlayerGoals, ref secondPlayerExtraPenalties);
             }
+        }
 
+        private void VisualizeGoalOrMiss(Label player, ref int playerGoals, ref int playerExtraPenalties)
+        {
+            if (selectedTarget.ToString() != goalkeeperTarget)
+            {
+                player.Text += " \u2713";
+
+                if (counter <= 10)
+                {
+                    playerGoals++;
+                }
+                else
+                {
+                    playerExtraPenalties++;
+                }
+            }
+            else
+            {
+                player.Text += " \u274C";
+            }
+        }
+
+        private void CheckIfPlayerWon(int counter)
+        {
             if (counter == 6)
             {
                 if (firstPlayerGoals == 3 && secondPlayerGoals == 0)
@@ -377,30 +392,11 @@ namespace PenaltyShootoutGame
                 }
             }
         }
-        private void VisualizeGoalOrMiss(Label player, ref int playerGoals, ref int playerExtraPenalties)
-        {
-            if (selectedTarget.ToString() != goalkeeperTarget)
-            {
-                player.Text += " \u2713";
 
-                if (counter <= 10)
-                {
-                    playerGoals++;
-                }
-                else
-                {
-                    playerExtraPenalties++;
-                }
-            }
-            else
-            {
-                player.Text += " \u274C";
-            }
-        }
+        private void FirstPlayerWinsMessage() => Task.Delay(100).ContinueWith(t => GameEnd("Player 1 wins!"));
 
-        private void FirstPlayerWinsMessage() => GameEnd("Player 1 wins!");
-        private void SecondPlayerWinsMessage() => GameEnd("Player 2 wins!");
-        
+        private void SecondPlayerWinsMessage() => Task.Delay(100).ContinueWith(t => GameEnd("Player 2 wins!"));
+
         private void GameEnd(string message)
         {
             Size = endscreen.Size;

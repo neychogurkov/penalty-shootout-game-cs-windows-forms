@@ -85,11 +85,11 @@
             // 
             this.ball.BackColor = System.Drawing.Color.Transparent;
             this.ball.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ball.Image = ((System.Drawing.Image)(resources.GetObject("ball.Image")));
+            this.ball.Image = global::PenaltyShootoutGame.Properties.Resources.ball;
             this.ball.Location = new System.Drawing.Point(449, 487);
             this.ball.Name = "ball";
             this.ball.Size = new System.Drawing.Size(60, 60);
-            this.ball.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ball.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ball.TabIndex = 2;
             this.ball.TabStop = false;
             this.ball.Visible = false;
@@ -263,7 +263,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::PenaltyShootoutGame.Properties.Resources.pitch;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1321, 701);
+            this.ClientSize = new System.Drawing.Size(930, 701);
             this.Controls.Add(this.winnerMessage);
             this.Controls.Add(this.endscreen);
             this.Controls.Add(this.playAgain);
@@ -281,6 +281,7 @@
             this.Controls.Add(this.mainMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Penalty Shootout";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainMenu)).EndInit();

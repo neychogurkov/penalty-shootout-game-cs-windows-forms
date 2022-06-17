@@ -93,6 +93,16 @@ namespace PenaltyShootoutGame.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap endscreen {
+            get {
+                object obj = ResourceManager.GetObject("endscreen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap goalkeeper {
             get {
                 object obj = ResourceManager.GetObject("goalkeeper", resourceCulture);
